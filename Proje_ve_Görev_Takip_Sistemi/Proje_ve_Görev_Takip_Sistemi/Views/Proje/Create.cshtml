@@ -1,0 +1,43 @@
+﻿@model Proje_ve_Görev_Takip_Sistemi.Models.Proje
+
+@{
+    ViewData["Title"] = "Yeni Proje Kaydı";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0"><i class="bi bi-plus-square"></i> Yeni Proje Tanımla</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="All" class="text-danger fw-bold"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Proje Adı</label>
+                            <input asp-for="Ad" class="form-control" placeholder="Örn: E-Ticaret Arayüz Tasarımı" />
+                            <span asp-validation-for="Ad" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Açıklama</label>
+                            <textarea asp-for="Aciklama" class="form-control" rows="4" placeholder="Projenin amacını kısaca yazın..."></textarea>
+                            <span asp-validation-for="Aciklama" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                                <i class="bi bi-check-circle"></i> Projeyi Kaydet
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Listeye Geri Dön
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
