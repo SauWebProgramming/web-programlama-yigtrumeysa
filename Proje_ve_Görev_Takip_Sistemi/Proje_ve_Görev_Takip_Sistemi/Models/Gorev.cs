@@ -17,9 +17,11 @@ namespace Proje_ve_Görev_Takip_Sistemi.Models
 
         [Required(ErrorMessage = "Görev başlığı zorunludur.")]
         [StringLength(200)]
-        public string Baslik { get; set; }
+        public string Ad { get; set; }
 
         public string Aciklama { get; set; }
+
+        public DateTime OlusturulmaTarihi { get; set; }
 
         public GorevDurumu Durum { get; set; } = GorevDurumu.Beklemede;
 

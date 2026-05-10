@@ -34,16 +34,16 @@ namespace Proje_ve_Görev_Takip_Sistemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Proje proje)
         {
-            // 1. Oluşturulma tarihini o anki sistem saati olarak biz atıyoruz
+            
             proje.OlusturulmaTarihi = DateTime.Now;
 
-            // 2. ModelState güvenlik görevlisine "Bu alanları kontrol etme" diyoruz
+            
             ModelState.Remove("Id");
             ModelState.Remove("OlusturulmaTarihi");
 
             ModelState.Remove("Id");
             ModelState.Remove("OlusturulmaTarihi");
-            // Eğer Proje modelinde Görevler listesi varsa, onu da kontrolden çıkarıyoruz:
+           
             ModelState.Remove("Gorevler");
 
             if (ModelState.IsValid)
