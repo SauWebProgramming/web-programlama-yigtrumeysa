@@ -1,40 +1,55 @@
-﻿@model IEnumerable<Proje_ve_Görev_Takip_Sistemi.Models.Proje>
-
-@{
-    ViewData["Title"] = "Proje Listesi";
-}
-
-<div class="container mt-5">
+﻿<div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary"><i class="bi bi-list-task"></i> Aktif Projeler</h2>
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-circle"></i> Yeni Proje Ekle
+        <h2 style="color: #4A3B32; font-weight: bold;">Aktif Projeler</h2>
+        <a asp-action="Create" class="btn btn-pudra px-4">
+            <i class="bi bi-plus-lg"></i> Yeni Proje Ekle
         </a>
     </div>
 
-    <div class="card shadow">
+    <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body p-0">
             <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="ps-4">Proje Adı</th>
-                        <th>Açıklama</th>
+                <thead style="background-color: #F8F4F0;">
+                    <tr style="color: #4A3B32;">
+                        <th class="ps-4 py-3">Proje Adı</th>
                         <th>Oluşturulma Tarihi</th>
-                        <th class="text-center">İşlemler</th>
+                        <th class="text-center">İşlem</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td class="ps-4 fw-bold">@item.Ad</td>
-                            <td>@item.Aciklama</td>
-                            <td>@item.OlusturulmaTarihi.ToShortDateString()</td>
+                            <td class="ps-4 py-3 fw-medium" style="color: var(--aci-kahve);">@item.Ad</td>
+                            <td style="color: #7A6556;">@item.OlusturulmaTarihi.ToShortDateString()</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-outline-info me-1">Detay</button>
-                                <button class="btn btn-sm btn-outline-danger">Sil</button>
+                                <button type="button" class="btn btn-sm px-4 rounded-pill me-2"
+                                        style="background-color: var(--koyu-pembe-bitis); border: 1px solid var(--koyu-pembe-bitis); color: #FDFBF7; font-weight: 500; transition: opacity 0.3s;"
+                                        data-bs-toggle="modal" data-bs-target="#detayModal-@item.Id">
+                                    Detay
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-danger px-3 rounded-pill">
+                                    <i class="bi bi-trash"></i> Sil
+                                </button>
                             </td>
                         </tr>
+
+                        <div class="modal fade" id="detayModal-@item.Id" tabindex="-1" aria-labelledby="detayModalLabel-@item.Id" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0 shadow-lg rounded-4" style="background-color: #FDFBF7;">
+                                    <div class="modal-header border-bottom-0">
+                                        <h5 class="modal-title fw-bold text-dark-coffee" id="detayModalLabel-@item.Id">
+                                            <i class="bi bi-info-circle me-2" style="color: var(--koyu-pembe-bitis);"></i> Proje Amacı
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body px-4 pb-4 pt-2 text-dark-coffee" style="font-size: 1.05rem; line-height: 1.6;">
+                                        @item.Aciklama
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </tbody>
             </table>

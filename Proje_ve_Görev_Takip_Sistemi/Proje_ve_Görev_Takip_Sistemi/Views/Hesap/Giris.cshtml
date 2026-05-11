@@ -1,0 +1,43 @@
+﻿@model Proje_ve_Görev_Takip_Sistemi.Models.GirisViewModel
+@{
+    ViewData["Title"] = "Sisteme Giriş";
+    // Bu sayfanın layout'taki navbar'ı kullanmasını istemezsen Layout = null; yapabilirsin ama biz şimdilik tutalım.
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card card-gradient-pink shadow-lg rounded-4 border-0 mt-5">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-shield-lock display-4 text-dark-coffee"></i>
+                        <h3 class="fw-bold text-dark-coffee mt-3">Yönetim Portalı</h3>
+                        <p style="color: #3C2A21;">Lütfen bilgilerinizi giriniz.</p>
+                    </div>
+
+                    <form asp-action="Giris" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label text-dark-coffee fw-bold">E-Posta Adresi</label>
+                            <input asp-for="Email" class="form-control rounded-pill border-0 shadow-sm px-4 py-2" placeholder="admin@project.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Sifre" class="form-label text-dark-coffee fw-bold">Şifre</label>
+                            <input asp-for="Sifre" class="form-control rounded-pill border-0 shadow-sm px-4 py-2" placeholder="******" />
+                            <span asp-validation-for="Sifre" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn text-white rounded-pill py-2 shadow-sm" style="background-color: var(--aci-kahve); font-weight: 500;">
+                                Giriş Yap
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Proje_ve_Görev_Takip_Sistemi.Data;
+﻿using Proje_ve_Görev_Takip_Sistemi.Data;
 using Proje_ve_Görev_Takip_Sistemi.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Proje_ve_Görev_Takip_Sistemi.Repositories
 {
@@ -15,13 +16,13 @@ namespace Proje_ve_Görev_Takip_Sistemi.Repositories
 
         public IEnumerable<Proje> TumProjeleriGetir()
         {
-            // Projeleri getirirken içindeki görevleri de dahil ediyoruz (Eager Loading)
-            return _context.Projeler.Include(p => p.Gorevler).ToList();
+            // Veritabanındaki tüm projeleri listeler
+            return _context.Projeler.ToList();
         }
 
-        public Proje GetirById(int id)
+        public Proje ProjeGetir(int id)
         {
-            return _context.Projeler.Include(p => p.Gorevler).FirstOrDefault(p => p.Id == id);
+            return _context.Projeler.FirstOrDefault(p => p.Id == id);
         }
 
         public void Ekle(Proje proje)
@@ -38,10 +39,10 @@ namespace Proje_ve_Görev_Takip_Sistemi.Repositories
 
         public void Sil(int id)
         {
-            var proje = GetirById(id);
-            if (proje != null)
+            var silinecek = _context.Projeler.Find(id);
+            if (silinecek != null)
             {
-                _context.Projeler.Remove(proje);
+                _context.Projeler.Remove(silinecek);
                 _context.SaveChanges();
             }
         }

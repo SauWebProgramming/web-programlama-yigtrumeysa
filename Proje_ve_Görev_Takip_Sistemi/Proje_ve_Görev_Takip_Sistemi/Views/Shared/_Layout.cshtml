@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Yönetim Portalı</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        /* Cocoa & Rose Tema Renkleri */
+        :root {
+            --aci-kahve: #2D1E17;
+            --koyu-pembe-bitis: #A06D6A;
+            --pudra-baslangic: #EED6D3;
+        }
+
+        body {
+            background-color: #FDFBF7;
+            color: var(--aci-kahve);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .text-dark-coffee {
+            color: var(--aci-kahve) !important;
+        }
+
+        .badge-custom {
+            background-color: #FDFBF7;
+            color: var(--aci-kahve);
+            border: 1px solid rgba(45, 30, 23, 0.1);
+            font-weight: 600;
+        }
+
+        /* Yandan Açılır Menü (Offcanvas) Link Efektleri */
+        .sidebar-link {
+            color: #FDFBF7;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+            .sidebar-link:hover {
+                background-color: rgba(253, 251, 247, 0.1);
+                color: var(--pudra-baslangic) !important;
+                transform: translateX(5px);
+            }
+    </style>
+</head>
+<body>
+    <header class="py-3 shadow-sm" style="background-color: #FFFFFF; border-bottom: 1px solid #EAE0D5;">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+
+            <button class="btn border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+                <i class="bi bi-list display-6 text-dark-coffee"></i>
+            </button>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="d-flex align-items-center">
+                    <span class="badge badge-custom px-3 py-2 me-3 fs-6 rounded-pill shadow-sm">
+                        <i class="bi bi-person-circle me-1"></i> @User.Identity.Name.Split('@')[0].ToUpper()
+                    </span>
+                    <form asp-controller="Hesap" asp-action="Cikis" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-2 fw-medium">Çıkış Yap</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </header>
+
+    <div class="offcanvas offcanvas-start shadow-lg" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel" style="background-color: var(--aci-kahve); border-right: none;">
+        <div class="offcanvas-header" style="border-bottom: 1px solid rgba(253, 251, 247, 0.1);">
+            <h5 class="offcanvas-title fw-bold" id="sidebarMenuLabel" style="color: var(--pudra-baslangic);">
+                <i class="bi bi-layers me-2"></i> Yönetim Portalı
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav flex-column fs-5 mt-3">
+                <li class="nav-item mb-2">
+                    <a class="nav-link sidebar-link" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-house-door me-3"></i> Ana Sayfa
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link sidebar-link" asp-area="" asp-controller="Proje" asp-action="Index">
+                        <i class="bi bi-folder2-open me-3"></i> Projeler
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link sidebar-link" asp-area="" asp-controller="Gorev" asp-action="Index">
+                        <i class="bi bi-list-check me-3"></i> Görevler
+                    </a>
+                </li>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item mt-4 mb-2">
+                        <div class="text-uppercase small mb-2 ms-3" style="color: rgba(253, 251, 247, 0.5); letter-spacing: 1px;">Yönetim</div>
+                        <a class="nav-link sidebar-link" asp-area="" asp-controller="Kullanici" asp-action="Index">
+                            <i class="bi bi-people me-3"></i> Takım Yönetimi
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid px-4 mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

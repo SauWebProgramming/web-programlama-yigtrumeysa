@@ -1,28 +1,72 @@
 ﻿@model IEnumerable<Proje_ve_Görev_Takip_Sistemi.Models.Gorev>
 
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-dark"><i class="bi bi-list-check"></i> Tüm Görevler</h2>
-        <a asp-action="Create" class="btn btn-primary">Yeni Görev Ekle</a>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="fw-bold" style="color: #4A3B32;">Görev Yönetim Panosu</h2>
+        <a asp-action="Create" class="btn btn-pudra px-4 shadow-sm">
+            <i class="bi bi-plus-circle me-2"></i>Yeni Görev
+        </a>
     </div>
 
-    <div class="row">
+    <div class="row" id="gorev-listesi">
         @foreach (var item in Model)
         {
             <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm border-start border-4 border-primary">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">@item.Ad</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <i class="bi bi-folder2-open"></i> @(item.Proje?.Ad ?? "Proje Atanmamış")
-                        </h6>
-                        <p class="card-text text-secondary">@item.Aciklama</p>
+                <div class="card card-gradient-pink h-100 shadow-sm rounded-4">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-4">
+                            <span class="badge rounded-pill px-3 py-2 badge-custom">
+                                <i class="bi bi-folder2-open me-1"></i> @(item.Proje?.Ad ?? "Genel")
+                            </span>
+                        </div>
+                        <h5 class="fw-bold mb-2 text-dark-coffee @(item.Durum == GorevDurumu.Tamamlandi ? "text-decoration-line-through opacity-50" : "")">
+                            @item.Ad
+                        </h5>
+
+                        <p class="small mb-4" style="color: #3C2A21; font-weight: 500;">@item.Aciklama</p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button onclick="updateStatus(@item.Id, 0)"
+                                    class="btn btn-sm flex-grow-1 @(item.Durum == GorevDurumu.Beklemede ? "btn-dark shadow-sm" : "btn-outline-light text-dark")"
+                                    style="font-size: 0.75rem; border-color: rgba(74, 59, 50, 0.2); white-space: nowrap; transition: all 0.2s;">
+                                Beklemede
+                            </button>
+
+                            <button onclick="updateStatus(@item.Id, 1)"
+                                    class="btn btn-sm flex-grow-1 @(item.Durum == GorevDurumu.Yapiliyor ? "btn-warning text-white shadow-sm" : "btn-outline-light text-dark")"
+                                    style="font-size: 0.75rem; border-color: rgba(74, 59, 50, 0.2); white-space: nowrap; transition: all 0.2s;">
+                                Yapılıyor
+                            </button>
+
+                            <button onclick="updateStatus(@item.Id, 2)"
+                                    class="btn btn-sm flex-grow-1 @(item.Durum == GorevDurumu.Tamamlandi ? "btn-success shadow-sm" : "btn-outline-light text-dark")"
+                                    style="font-size: 0.75rem; border-color: rgba(74, 59, 50, 0.2); white-space: nowrap; transition: all 0.2s;">
+                                Tamamlandı
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-footer bg-transparent border-0 text-end">
-                        <small class="text-muted">@item.OlusturulmaTarihi.ToShortDateString()</small>
+
+                    <div class="card-footer bg-transparent border-0 px-4 pb-3 pt-0 text-center">
+                        <small style="color: #2D1E17; font-weight: 500; font-size: 0.75rem;">
+                            <i class="bi bi-calendar3 me-1"></i> @item.OlusturulmaTarihi.ToShortDateString()
+                        </small>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function updateStatus(taskId, statusValue) {
+            $.post('/Gorev/DurumGuncelle', { id: taskId, yeniDurum: statusValue }, function (data) {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert("Durum güncellenirken bir hata oluştu.");
+                }
+            });
+        }
+    </script>
+}

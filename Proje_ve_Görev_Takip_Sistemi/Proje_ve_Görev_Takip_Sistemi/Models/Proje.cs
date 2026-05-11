@@ -18,5 +18,12 @@ namespace Proje_ve_Görev_Takip_Sistemi.Models
 
         // Bir projenin birden fazla görevi olabilir
         public virtual ICollection<Gorev> Gorevler { get; set; }
+
+        // ... Mevcut kodlar (Id, Ad, Aciklama vs.) kalsın ...
+
+        // Yeni Eklenenler:
+        public string? YoneticiId { get; set; }
+        public ApplicationUser? Yonetici { get; set; }
+        public ICollection<ProjeUyesi>? ProjeUyeleri { get; set; }
     }
 }

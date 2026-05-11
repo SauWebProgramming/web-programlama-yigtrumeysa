@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Proje_ve_Görev_Takip_Sistemi.Models;
 using Proje_ve_Görev_Takip_Sistemi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proje_ve_Görev_Takip_Sistemi.Controllers
 {
+    [Authorize]
     public class ProjeController : Controller
     {
+
         // Veritabanı işlemleri için repository tanımlama
         private readonly IProjeRepository _projeRepository;
 
@@ -21,6 +24,8 @@ namespace Proje_ve_Görev_Takip_Sistemi.Controllers
             var projeler = _projeRepository.TumProjeleriGetir();
             return View(projeler);
         }
+
+        [Authorize(Roles = "Admin, Manager")]
 
         // Yeni Proje Ekleme Sayfası (Sadece boş formu açar)
         [HttpGet]

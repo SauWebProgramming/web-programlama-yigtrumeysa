@@ -13,7 +13,7 @@ namespace Proje_ve_Görev_Takip_Sistemi.Repositories
             _context = context;
         }
 
-        public IEnumerable<Gorev> TumGorevleriGetir()
+        public IEnumerable<Gorev> TumGorevleriGetir() 
         {
             return _context.Gorevler.Include(g => g.Proje).ToList();
         }
